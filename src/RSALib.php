@@ -1,27 +1,26 @@
-<?php namespace Therali\RSA;
+<?php
+
+namespace Therali\laravelRsa;
+
 
 use Illuminate\Support\Facades\Config;
-
 class RSALib
-{   
+{
     /**
      * [Clé privée]
      * @var [type]
      */
     public $private_exp;
-
     /**
      * [Clé privée]
      * @var [type]
      */
     public $public_exp;
-
     /**
      * [Module]
      * @var [type]
      */
     public $modulus;
-
     /**
      * RSALib constructor.
      */
@@ -31,11 +30,10 @@ class RSALib
         $this->public_exp = Config::get('rsa.public_exp');
         $this->modulus = Config::get('rsa.modulus');
     }
-
     /**
      * Multiplication modulaire ($p^$q)mod($r)
      * Personne à charge php_gmp.dll
-     * 
+     *
      * @param  string base
      * @param  string Index
      * @param  string Moulage
@@ -54,7 +52,7 @@ class RSALib
         {
             $rem = bcmod($div, 2);
             $div = bcdiv($div, 2);
-        
+
             if($rem) array_push($factors, $power_of_two);
             $power_of_two++;
         }
@@ -72,7 +70,7 @@ class RSALib
                 $part_res = bcmod($part_res, $r);
                 $idx++;
             }
-            
+
             array_push($partial_results, $part_res);
         }
         // Calculate final result
@@ -84,10 +82,9 @@ class RSALib
         }
         return $result;
     }
-
     /**
      * Décimal à hexadécimal
-     * 
+     *
      * @param  string Nombre décimal chaîne
      * @return string
      */
@@ -102,12 +99,11 @@ class RSALib
         }
         return $hexval;
     }
-
     /**
      * Chaîne hexadécimale en chaîne décimale
-     * 
+     *
      * @param  string Chaîne hexadécimale
-     * @return string 
+     * @return string
      */
     function hex2Dec($number)
     {
@@ -116,19 +112,18 @@ class RSALib
         $number = strrev($number);
         for($i = 0; $i < strlen($number); $i++)
         {
-        $decval = bcadd(bcmul(bcpow('16',$i,0),$decvalues[$number{$i}]), $decval);
+            $decval = bcadd(bcmul(bcpow('16',$i,0),$decvalues[$number{$i}]), $decval);
         }
         return strtok($decval, ".");
     }
-
     /**
      * Chaîne en hexadécimal
-     * 
+     *
      * @param  string Chaîne
      * @return string
      */
     function str2Hex($string)
-    { 
+    {
         $hex="";
         for($i=0;$i<strlen($string);$i++){
             $hex.=substr("00".dechex(ord($string[$i])),-2);
@@ -136,41 +131,38 @@ class RSALib
         $hex=strtoupper($hex);
         return $hex;
     }
-
     /**
      * Convertir hex en chaîne
-     * 
+     *
      * @param  string Chaîne hexadécimale
      * @return string
      */
     function hex2Str($hex)//Hexadécimal en chaîne
-    {   
-        $string=""; 
+    {
+        $string="";
         for($i=0;$i<strlen($hex)-1;$i+=2)
-        $string.=chr(hexdec($hex[$i].$hex[$i+1]));
+            $string.=chr(hexdec($hex[$i].$hex[$i+1]));
         return  $string;
     }
-
     /**
      * Gbk à utf8
-     * 
+     *
      * @param  string Chaîne encodée en Gbk
      * @return string
      */
     function gbk2Utf8($str){
         return mb_convert_encoding($str, 'utf-8', 'gbk');
     }
-    
+
     /**
      * Utf8 à gbk
-     * 
+     *
      * @param  string Chaîne codée Utf8
-     * @return string 
+     * @return string
      */
     function utf82Gbk($str){
         return mb_convert_encoding($str, 'gbk', 'utf-8');
     }
-
     /**
      * Définir la clé publique et le module de la clé publique
      * @param array $arr [description]
@@ -181,10 +173,9 @@ class RSALib
             $this->$key = $value;
         }
     }
-
     /**
      * Déchiffrement Rsa
-     * 
+     *
      * @param  string Texte chiffré à déchiffrer
      * @return string
      */
@@ -193,7 +184,6 @@ class RSALib
         $decrypted = $this->powMod($this->hex2Dec($ciphertext),$this->hex2Dec($this->private_exp),$this->hex2Dec($this->modulus));
         return $this->gbk2Utf8($this->hex2Str($this->dec2Hex($decrypted)));
     }
-
     /**
      * Cryptage Rsa
      *
@@ -214,5 +204,4 @@ class RSALib
         $encrypted = $this->powMod($plaintext, $this->hex2Dec($this->public_exp),$modulus);
         return $this->dec2hex($encrypted);
     }
-
 }
