@@ -1,5 +1,5 @@
 {
-  "name": "therali/rsa",
+  "name": "therali/laravelRsa",
   "description": "RSA Package for Laravel5",
   "keywords": [
     "RSA",
