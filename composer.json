@@ -16,12 +16,6 @@
       "email": "th3r4l1@gmail.com"
     }
   ],
-  "require": {
-    "php": ">=5.6.4",
-    "laravel/framework": "5.4.*|5.5.*|5.6.*|5.7.*"
-  },
-  "require-dev": {
-  },
   "autoload": {
     "psr-4": {
       "Therali\\laravelRsa\\": "src/",
