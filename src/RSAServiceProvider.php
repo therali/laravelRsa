@@ -1,14 +1,17 @@
-<?php namespace Therali\RSA;
+<?php
+namespace Therali\laravelRsa;
 
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\ServiceProvider;
 
 class RSAServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Bootstrap services.
+     *
+     * @param Request $request
      *
      * @return void
      */
@@ -20,14 +23,14 @@ class RSAServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
+     * Register services.
      *
      * @return void
      */
     public function register()
     {
         $this->app->singleton('rsa', function () {
-            return $this->app->make('Therali\RSA\RSALib');
+            return $this->app->make('Therali\laravelRsa\RSALib');
         });
     }
 }
