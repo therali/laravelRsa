@@ -1,4 +1,7 @@
-<?php namespace Therali\RSA;
+<?php
+
+namespace Therali\laravelRsa;
+
 
 use Illuminate\Support\Facades\Facade;
 
@@ -13,5 +16,4 @@ class RSA extends Facade
     {
         return 'rsa';
     }
-
 }
