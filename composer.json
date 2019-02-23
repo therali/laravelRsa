@@ -16,6 +16,11 @@
       "email": "th3r4l1@gmail.com"
     }
   ],
+  "require": {
+    "php": ">=5.5.9"
+  },
+  "require-dev": {
+  },
   "autoload": {
     "psr-4": {
       "Therali\\laravelRsa\\": "src/"
